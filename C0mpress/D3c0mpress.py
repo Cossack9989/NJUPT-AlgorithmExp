@@ -1,6 +1,8 @@
 import struct
 import rc4
 
+from binascii import crc32
+
 class D3c0mpress(object):
     def __init__(self,filename = None,key=None):
         self._filename = filename
@@ -36,6 +38,8 @@ class D3c0mpress(object):
         return self.getTblOffset()-0x40
     def getDataExLen(self):
         return struct.unpack("<I",self.RAW[0x4:0x8])[0]
+    def getCrc(self):
+        return struct.unpack("<I",self.RAW[0x30:0x34])[0]
     def parseTbl(self):
         tmpTbl = self.RAW[self.getTblOffset():self.getTblOffset()+self.getTblSize()]
         tmpKeys = tmpTbl[:self.getTblKeyLen()]
@@ -77,6 +81,15 @@ class D3c0mpress(object):
         tmpf.write(self.decodeData)
         self.decodeFile = tmpf.name
         tmpf.close()
+        if self.key != b"":
+            a = crc32(self.plainData)
+            b = self.getCrc()
+            if a==b:
+                return 0
+            else:
+                return 1
+        else:
+            return 2
 
 '''
 x = D3c0mpress("ztest.c0p","12345678")

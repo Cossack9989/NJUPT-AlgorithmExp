@@ -49,8 +49,15 @@ class App:
     def unpress(self):
         self.ub["state"] = tkinter.DISABLED
         x = D3c0mpress(self.filename,self.key.get().encode("latin-1"))
-        x.undo()
-        self.st.set("unpress succeed")
+        judgeFlag = x.undo()
+        if judgeFlag == 2:
+            self.st.set("unpress without encryption\r\n succeed")
+        elif judgeFlag == 1:
+            self.st.set("data corruption found\r\nwarning")
+        elif judgeFlag == 0:
+            self.st.set("unpress with encryption\r\nsucceed")
+        else:
+            self.st.set("unknown error")
         return
     def selectFile(self):
         try:
