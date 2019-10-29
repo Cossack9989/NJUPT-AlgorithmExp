@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: rc4
+Version: 0.2
+Summary: Package which exposes the RC4 algorithm
+Home-page: https://github.com/jbremer/rc4
+Author: Jurriaan Bremer
+Author-email: jbr@cuckoo.sh
+License: BSD 3-Clause
+Description: UNKNOWN
+Platform: UNKNOWN
